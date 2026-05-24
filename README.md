@@ -1,3 +1,4 @@
+<img width="1920" height="1080" alt="Screenshot from 2026-05-24 10-57-47" src="https://github.com/user-attachments/assets/b73ba27d-7648-4ac3-8f65-b8825b603fa1" />
 # StripeAPIGeminiAPIintegration
 A backend microservice that bridges a secure payment gateway with advanced generative AI.
 Paid AI Generation Microservice
