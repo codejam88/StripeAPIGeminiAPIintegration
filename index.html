@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paywalled AI Generator</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; background-color: #f9f9f9; color: #333; }
+        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid #eef; }
+        textarea { width: 100%; height: 100px; padding: 12px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 8px; margin-bottom: 15px; font-size: 16px; resize: none; }
+        button { width: 100%; background-color: #635bff; color: white; border: none; padding: 14px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; transition: background 0.2s; }
+        button:hover { background-color: #4b45cc; }
+        button:disabled { background-color: #aab; cursor: not-allowed; }
+        .status-banner { padding: 15px; border-radius: 8px; margin-top: 20px; font-weight: bold; text-align: center; display: none; }
+        .success { background-color: #e6f4ea; color: #137333; border: 1px solid #ceead6; }
+        .cancel { background-color: #fce8e6; color: #c5221f; border: 1px solid #fad2cf; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Unlock Premium AI Generation</h2>
+    <p>Enter a prompt below. Pay $1 via Stripe to unlock the high-tier Gemini AI generation.</p>
+    
+    <textarea id="promptInput" placeholder="E.g., Write a meal plan for a marathon runner..."></textarea>
+    <button id="payBtn" onclick="startPaymentFlow()">Pay $1 & Generate</button>
+
+    <div id="statusBanner" class="status-banner"></div>
+</div>
+
+<script>
+    // Check if URL parameters indicate a success or cancel from Stripe redirect
+    const urlParams = new URLSearchParams(window.location.search);
+    const status = urlParams.get('status');
+    const banner = document.getElementById('statusBanner');
+
+    if (status === 'success') {
+        banner.className = "status-banner success";
+        banner.innerText = "💸 Payment Complete! Check your backend terminal logs to read your generated AI response!";
+        banner.style.display = "block";
+    } else if (status === 'cancel') {
+        banner.className = "status-banner cancel";
+        banner.innerText = "❌ Payment Canceled. Your card was not charged.";
+        banner.style.display = "block";
+    }
+
+    async function startPaymentFlow() {
+        const promptText = document.getElementById('promptInput').value.trim();
+        const payBtn = document.getElementById('payBtn');
+
+        if (!promptText) {
+            alert("Please enter a prompt first!");
+            return;
+        }
+
+        // Enter loading state
+        payBtn.disabled = true;
+        payBtn.innerText = "Redirecting to Stripe...";
+
+        try {
+            const response = await fetch('http://localhost:8000/create-checkout-session', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt: promptText })
+            });
+
+            const data = await response.json();
+            
+            // Redirect the user directly to Stripe's secure hosted payment page
+            if (data.url) {
+                window.location.href = data.url;
+            } else {
+                alert("Error spinning up payment checkout.");
+                payBtn.disabled = false;
+                payBtn.innerText = "Pay $1 & Generate";
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("Could not connect to backend server.");
+            payBtn.disabled = false;
+            payBtn.innerText = "Pay $1 & Generate";
+        }
+    }
+</script>
+
+</body>
+</html>
