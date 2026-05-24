@@ -1,4 +1,3 @@
-<img width="1920" height="1080" alt="Screenshot from 2026-05-24 10-57-47" src="https://github.com/user-attachments/assets/b73ba27d-7648-4ac3-8f65-b8825b603fa1" />
 # StripeAPIGeminiAPIintegration
 A backend microservice that bridges a secure payment gateway with advanced generative AI.
 Paid AI Generation Microservice
@@ -47,8 +46,43 @@ Monetization: The user is redirected to a secure, Stripe-hosted payment page.
 
 Asynchronous Verification: Upon a successful charge, Stripe emits a checkout.session.completed event. The local Stripe CLI daemon intercepts this payload and securely forwards it to the backend's /webhook endpoint.
 
-
-****AT THE END OF THE PURCHASE, GEMINI WILL WRITE A SMALL HAIKU ABOUT YOUR PURCHASE.****
 Validation & Extraction: The backend cryptographically verifies the webhook signature. It then securely extracts the original user prompt directly out of the transactional metadata.
 
 LLM Orchestration: The backend passes the recovered prompt to the Google GenAI SDK using structural parameters that force the gemini-2.5-flash model to return a strict 5-7-5 syllable Haiku, printing the final output cleanly to the terminal.
+
+
+
+
+
+
+
+
+
+
+### 🖼️ Application Preview
+
+#### 1. Input User Prompt
+The user initiates the flow by submitting a custom topic to the backend microservice.
+
+<img width="1920" height="1080" alt="Screenshot from 2026-05-24 10-57-47" src="https://github.com/user-attachments/assets/b73ba27d-7648-4ac3-8f65-b8825b603fa1" />
+
+#### 2. Secure Stripe Monetization Gateway
+The prompt string is packaged securely into metadata while the user completes a verified transaction.
+![Stripe Checkout Page](images/stripe-checkout.png)
+
+
+
+<img width="1920" height="1080" alt="Screenshot from 2026-05-24 10-58-32" src="https://github.com/user-attachments/assets/14d83755-e8ea-46dd-9a1d-be9d7fa6f5cf" />
+
+
+
+#### 3. Asynchronous Webhook & Gemini Haiku Generation
+Once the payment clears, the webhook extracts the metadata, triggers the enterprise LLM, and logs the strict 3-line output.
+![Terminal Output](images/gemini-haiku-terminal.png)
+
+<img width="1920" height="1080" alt="Screenshot from 2026-05-24 10-58-07" src="https://github.com/user-attachments/assets/ee58fba7-da18-4a01-8b52-6745c3fd6e6f" />
+
+
+
+
+
