@@ -68,21 +68,20 @@ The user initiates the flow by submitting a custom topic to the backend microser
 
 #### 2. Secure Stripe Monetization Gateway
 The prompt string is packaged securely into metadata while the user completes a verified transaction.
-![Stripe Checkout Page](images/stripe-checkout.png)
 
 
+<img width="1920" height="1080" alt="Screenshot from 2026-05-24 10-58-07" src="https://github.com/user-attachments/assets/ee58fba7-da18-4a01-8b52-6745c3fd6e6f" />
 
-<img width="1920" height="1080" alt="Screenshot from 2026-05-24 10-58-32" src="https://github.com/user-attachments/assets/14d83755-e8ea-46dd-9a1d-be9d7fa6f5cf" />
 
 
 
 #### 3. Asynchronous Webhook & Gemini Haiku Generation
 Once the payment clears, the webhook extracts the metadata, triggers the enterprise LLM, and logs the strict 3-line output.
-![Terminal Output](images/gemini-haiku-terminal.png)
-
-<img width="1920" height="1080" alt="Screenshot from 2026-05-24 10-58-07" src="https://github.com/user-attachments/assets/ee58fba7-da18-4a01-8b52-6745c3fd6e6f" />
 
 
+
+
+<img width="1920" height="1080" alt="Screenshot from 2026-05-24 10-58-32" src="https://github.com/user-attachments/assets/14d83755-e8ea-46dd-9a1d-be9d7fa6f5cf" />
 
 
 
