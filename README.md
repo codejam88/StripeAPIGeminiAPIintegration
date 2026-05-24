@@ -46,6 +46,8 @@ Monetization: The user is redirected to a secure, Stripe-hosted payment page.
 
 Asynchronous Verification: Upon a successful charge, Stripe emits a checkout.session.completed event. The local Stripe CLI daemon intercepts this payload and securely forwards it to the backend's /webhook endpoint.
 
+
+****AT THE END OF THE PURCHASE, GEMINI WILL WRITE A SMALL HAIKU ABOUT YOUR PURCHASE.****
 Validation & Extraction: The backend cryptographically verifies the webhook signature. It then securely extracts the original user prompt directly out of the transactional metadata.
 
 LLM Orchestration: The backend passes the recovered prompt to the Google GenAI SDK using structural parameters that force the gemini-2.5-flash model to return a strict 5-7-5 syllable Haiku, printing the final output cleanly to the terminal.
